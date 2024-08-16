@@ -19,6 +19,7 @@ fun App() {
     var showSchb by remember { mutableStateOf(false) }
     var showAPle by remember { mutableStateOf(false) }
 
+
     MaterialTheme {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -36,6 +37,11 @@ fun App() {
                     showAPle = true
                 }) {
                     Text("Show AP Guides")
+                }
+                Button(onClick = {
+                    showAizen = true
+                }) {
+                    Text("Show mr williams homework answers")
                 }
             }
         }

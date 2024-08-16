@@ -1,15 +1,12 @@
 package windows
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.window.Window
 
 /**
@@ -21,22 +18,26 @@ fun APle(onCloseRequest: () -> Unit) {
     Window(onCloseRequest = onCloseRequest, title = "AP Guides") {
         val uriHandler = LocalUriHandler.current
         val links = remember {
-            listOf(
-                "https://example.com/ap-guide-1",
-                "https://example.com/ap-guide-2",
-                "https://example.com/ap-guide-3"
+            mapOf(
+                "AP Euro, World, US, & Gov" to "https://www.youtube.com/@heimlershistory",
+                "AP CSA" to "https://example.com/ap-guide-2",
+                "AP CSP" to "https://example.com/ap-guide-3"
             )
         }
 
         MaterialTheme {
-            Column(
-                modifier = Modifier.fillMaxSize()
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
             ) {
-                links.forEach { link ->
-                    Text(
-                        text = AnnotatedString(link),
-                        modifier = Modifier.clickable { uriHandler.openUri(link) }
-                    )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    links.forEach { (name, link) ->
+                        Button(onClick = { uriHandler.openUri(link) }) {
+                            Text(text = name)
+                        }
+                    }
                 }
             }
         }
