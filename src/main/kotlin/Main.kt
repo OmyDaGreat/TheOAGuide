@@ -1,68 +1,63 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.res.loadImageBitmap
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import java.net.URI
+import windows.*
 
+/**
+ * Main composable function for the application.
+ * Displays buttons to show a popup image and AP Guides in separate windows.
+ */
 @Composable
 @Preview
 fun App() {
-    var text by remember { mutableStateOf("Hello, World!") }
-    var state: String? = null
-    var showPopup by remember { mutableStateOf(false) }
+    // State variables to control the visibility of the popup windows
+    var showSchb by remember { mutableStateOf(false) }
+    var showAPle by remember { mutableStateOf(false) }
 
     MaterialTheme {
         Box(
             modifier = Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
-            Button(onClick = {
-                state?.let {
-                    text = "Hello, World!"
-                    state = null
-                } ?: run {
-                    text = "Hello, Desktop!"
-                    state = "California"
+            Column {
+                // Button to show the popup image window
+                Button(onClick = {
+                    showSchb = true
+                }) {
+                    Text("Show Popup")
                 }
-                showPopup = true
-            }) {
-                Text(text)
+                // Button to show the AP Guides window
+                Button(onClick = {
+                    showAPle = true
+                }) {
+                    Text("Show AP Guides")
+                }
             }
         }
     }
 
-    if (showPopup) {
-        PopupWindow(onCloseRequest = { showPopup = false })
+    // Conditionally display the popup image window
+    if (showSchb) {
+        Schb(onCloseRequest = { showSchb = false })
+    }
+
+    // Conditionally display the AP Guides window
+    if (showAPle) {
+        APle(onCloseRequest = { showAPle = false })
     }
 }
 
-@Composable
-fun PopupWindow(onCloseRequest: () -> Unit) {
-    Window(onCloseRequest = onCloseRequest) {
-        val imageUrl = "https://oxford.auhsd.us/files/user/5529/image/Screen-Shot-2023-06-29-at-12_58_28-PM.png"
-        val imageBitmap: ImageBitmap = loadImageBitmap(URI(imageUrl).toURL().openStream())
-
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Image(bitmap = imageBitmap, contentDescription = "Popup Image")
-        }
-    }
-}
-
+/**
+ * Main entry point of the application.
+ * Sets up the main window and displays the App composable.
+ */
 fun main() = application {
-    Window(onCloseRequest = {}) {
+    Window(onCloseRequest = ::exitApplication) {
         App()
     }
 }
