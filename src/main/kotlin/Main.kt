@@ -38,11 +38,6 @@ fun App() {
                 }) {
                     Text("Show AP Guides")
                 }
-                Button(onClick = {
-                    showAizen = true
-                }) {
-                    Text("Show mr williams homework answers")
-                }
             }
         }
     }
